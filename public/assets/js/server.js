@@ -30,25 +30,7 @@ app.get("/notes", function (req, res) {
 app.get("/api/notes", function (req, res) {
     return res.sendFile(path.resolve('../../../db/db.json'));
 })
-// app.post("/api/tables", function (req, res) {
-//     const newTable = req.body;
-//     console.log(newTable);
 
-//     });
-
-
-//     // if (tables.length >= 5) {
-//     //   waitlist.push(newTable);
-//     //   res.json(false)
-//     // } else {
-//     //   tables.push(newTable);
-//     //   console.log(tables);
-//     //   res.json(true) //Getting on Postman side
-//     // }
-
-//     // res.json(tables);
-
-// });
 
 
 app.post("/api/notes", function (req, res) {
