@@ -60,7 +60,6 @@ var handleNoteSave = function () {
 
   saveNote(newNote).then(function (data) {
     console.log(data);
-    console.log("Should Rerender notes next");
     getAndRenderNotes();
     renderActiveNote();
   });
