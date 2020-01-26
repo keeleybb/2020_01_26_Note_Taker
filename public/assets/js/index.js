@@ -34,7 +34,6 @@ var deleteNote = function (id) {
 
 // If there is an activeNote, display it, otherwise render empty inputs
 var renderActiveNote = function () {
-  console.log(activeNote);
   $saveNoteBtn.hide();
 
   if (activeNote.id) {
@@ -111,7 +110,6 @@ var handleRenderSaveBtn = function () {
 // Render's the list of note titles
 var renderNoteList = function (notes) {
   $noteList.empty();
-  console.log("Just emptied");
   var noteListItems = [];
 
   for (var i = 0; i < notes.length; i++) {
@@ -128,12 +126,11 @@ var renderNoteList = function (notes) {
   }
 
   $noteList.append(noteListItems);
-  console.log("Should be rewritten");
 };
 
 // Gets notes from the db and renders them to the sidebar
 var getAndRenderNotes = function () {
-  console.log('data');
+  // console.log('data');
   return getNotes().then(function (data) {
     renderNoteList(data);
   });

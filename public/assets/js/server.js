@@ -19,8 +19,6 @@ var obj = []; //Temp Holder
 
 //API
 app.get("/api/notes", function (req, res) {
-    // var dbFile = JSON.parse(require('fs').readFileSync('../../../db/db.json', 'utf8'));
-    console.log("Is API actually getting called?");
     return res.json(JSON.parse(require('fs').readFileSync(filePath, 'utf8')));
 })
 
@@ -47,21 +45,20 @@ app.post("/api/notes", function (req, res) {
 
 })
 
-// app.delete("/api/notes/:id", function (req, res) {
-//Read the file, rewrite variable with data.. Iterate through it to find the ID, then pop it out , then rewrite the file and reload page
-//     var indexOfCouseInJson = filePath.map(function (item) { return item.id; }).indexOf(req.params.id); //find the index of :id
-//     if (indexOfCouseInJson === -1) {
-//         res.statusCode = 404;
-//         return res.send('Error 404: No quote found');
-//     }
 
-//     var result = json.splice(indexOfCouseInJson, 1);
-//     fs.writeFile(jsonFilePath, JSON.stringify(result), function (err) {
-//         if (err) throw err;
-//         res.json(true);
-//     });
-// }
-// );
+//Do I need to create a page for ID and then iterate through to find a match
+app.delete("/api/notes/:id", function (req, res) {
+    const dbFile = JSON.parse(require('fs').readFileSync('../../../db/db.json', 'utf8'));
+
+    console.log(req.params.id);
+    const result = dbFile.filter(note => note.id != req.params.id);
+    fs.writeFile(filePath, JSON.stringify(result), 'utf8', function (err) {
+        if (err) throw err;
+        console.log('done!');
+    });// write it back 
+    console.log(result);
+    return res.json(true);
+});
 
 //Routes
 app.get("/", function (req, res) {
@@ -73,11 +70,21 @@ app.get("/notes", function (req, res) {
 })
 
 
+// Displays a single note 
+// app.get("/api/notes/:id", function (req, res) {
+//     var note = req.params.id;
+//     var dbFile = JSON.parse(require('fs').readFileSync('../../../db/db.json', 'utf8'));
+//     console.log(note);
+//     for (var i = 0; i < dbFile.length; i++) {
+//         if (note === dbFile[i].id) {
+//             return res.json(dbFile[i]);
+//         }
+//     }
+//     return res.json(false);
+// });
+
 // Starts the server to begin listening
 app.listen(PORT, function () {
     console.log("App listening on PORT " + PORT);
-    // console.log(path.resolve('../../'));
-    // console.log(path.resolve(__dirname + '/../../notes.html'));
-})
-
+});
 
