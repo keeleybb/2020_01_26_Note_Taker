@@ -1,18 +1,1 @@
-[
-    {
-        "title": "Test Title",
-        "text": "Test text"
-    },
-    {
-        "id": "1",
-        "name": "Keeley",
-        "email": "keeley@email.com",
-        "phone": 55555555555
-    },
-    {
-        "id": "1",
-        "name": "Keeley",
-        "email": "keeley@email.com",
-        "phone": 55555555555
-    }
-]
+[{"title":"Test Title","text":"Test text","id":"1580067355796"},{"title":"Note 1","text":"Note 1","id":"1580069728340"}]
