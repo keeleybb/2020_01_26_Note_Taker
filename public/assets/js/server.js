@@ -15,8 +15,6 @@ app.use(express.json());
 //File Paths
 const filePath = (path.resolve('../../../db/db.json'));
 
-var obj = []; //Temp Holder
-
 //API
 app.get("/api/notes", function (req, res) {
     return res.json(JSON.parse(require('fs').readFileSync(filePath, 'utf8')));
@@ -25,28 +23,21 @@ app.get("/api/notes", function (req, res) {
 
 app.post("/api/notes", function (req, res) {
     //How to push to an outside file with no name
-    const newNotes = req.body;
-    console.log(newNotes);
-
-    fs.readFile(filePath, 'utf8', function readFileCallback(err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            obj = JSON.parse(data); //now filePath is an object
-            obj.push(newNotes); //add some data
-            let json = JSON.stringify(obj); //convert it back to json
-            fs.writeFile(filePath, json, 'utf8', function (err) {
-                if (err) throw err;
-                console.log('done!');
-            });// write it back 
-        }
+    const newNote = req.body;
+    const dbFile = JSON.parse(require('fs').readFileSync('../../../db/db.json', 'utf8'));
+    dbFile.push(newNote);
+    console.log(newNote);
+    // write it back 
+    fs.writeFile(filePath, JSON.stringify(dbFile), 'utf8', function (err) {
+        if (err) throw err;
+        console.log('done!');
     });
-    return res.json(JSON.parse(require('fs').readFileSync(filePath, 'utf8')));
+    return res.json(true);
 
 })
 
 
-//Do I need to create a page for ID and then iterate through to find a match
+//Delete Notes
 app.delete("/api/notes/:id", function (req, res) {
     const dbFile = JSON.parse(require('fs').readFileSync('../../../db/db.json', 'utf8'));
 
@@ -61,27 +52,15 @@ app.delete("/api/notes/:id", function (req, res) {
 });
 
 //Routes
-app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname + '/../../index.html'));
-})
 
 app.get("/notes", function (req, res) {
     res.sendFile(path.resolve(__dirname + '/../../notes.html'));
 })
 
+app.get("/*", function (req, res) {
+    res.sendFile(path.join(__dirname + '/../../index.html'));
+})
 
-// Displays a single note 
-// app.get("/api/notes/:id", function (req, res) {
-//     var note = req.params.id;
-//     var dbFile = JSON.parse(require('fs').readFileSync('../../../db/db.json', 'utf8'));
-//     console.log(note);
-//     for (var i = 0; i < dbFile.length; i++) {
-//         if (note === dbFile[i].id) {
-//             return res.json(dbFile[i]);
-//         }
-//     }
-//     return res.json(false);
-// });
 
 // Starts the server to begin listening
 app.listen(PORT, function () {
